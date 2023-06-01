@@ -8,7 +8,7 @@ install: patch
 	npm ci
 
 build: idl patch
-	@echo '~ Building zig optimize=$(LEVEL)'
+	@echo '~ Building zig optimize=$(LEVEL) ZigVersion=$(shell zig version)'
 	@zig build -freference-trace -Doptimize=$(LEVEL) -freference-trace
 	@echo '~ Extracting debug symbols'
 	@./tools/wasm-split-aarch64 zig-out/lib/imgui-webgl.wasm \
@@ -35,7 +35,6 @@ clean:
 	rm -rf zig-out
 
 patch:
-	# local devcontainer
 	@touch /usr/local/lib/zig/lib/libc/include/generic-musl/bits/syscall.h || true
 
 

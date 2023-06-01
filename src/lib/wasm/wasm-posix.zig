@@ -433,7 +433,7 @@ fn c_qsort(base: [*]u8, nmemb: usize, size: usize, c_compare: *const fn (*anyopa
     for (idxes, 0..) |_, i| {
         idxes[i] = i;
     }
-    std.sort.sort(u32, idxes, ctx, S.lessThan);
+    std.mem.sort(u32, idxes, ctx, S.lessThan);
 
     // Copy to temporary buffer.
     const temp = galloc.alloc(u8, nmemb * size) catch @panic("c_qsort");

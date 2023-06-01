@@ -20,7 +20,7 @@ jobs:
 
       - run: sudo bash ./install-zig.sh
         env:
-          ZIG_VERSION: "latest"
+          ZIG_VERSION: "master"
 
       - run: make install
       - run: make release
