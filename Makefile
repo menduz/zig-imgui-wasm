@@ -4,6 +4,8 @@ LEVEL := Debug
 ZIG_VERSION := master
 ZIG := /usr/local/lib/zig/lib
 
+ARCH := $(shell uname -m)
+
 install: patch
 	npm ci
 
@@ -11,7 +13,7 @@ build: idl patch
 	@echo '~ Building zig optimize=$(LEVEL) ZigVersion=$(shell zig version)'
 	@zig build -freference-trace -Doptimize=$(LEVEL) -freference-trace
 	@echo '~ Extracting debug symbols'
-	@./tools/wasm-split-aarch64 zig-out/lib/imgui-webgl.wasm \
+	@./tools/wasm-split-$(ARCH) zig-out/lib/imgui-webgl.wasm \
 		-o web/imgui-webgl.wasm \
 		--strip \
 		--debug-out=web/imgui-wegbl.debug \
