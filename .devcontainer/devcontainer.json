@@ -1,0 +1,21 @@
+{
+  "name": "Default Linux Universal",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:0-18",
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/zig:1": {
+      "version": "master"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ziglang.vscode-zig"
+      ]
+    }
+  },
+  "containerEnv": {
+    "SHELL": "/usr/bin/zsh"
+  },
+  "appPort": 7655
+}

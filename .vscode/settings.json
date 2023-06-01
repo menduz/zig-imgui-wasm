@@ -1,0 +1,8 @@
+{
+  "zig.zls.enabled": true,
+  "[zig]": {
+    "editor.indentSize": "tabSize",
+    "editor.tabSize": 4,
+    "editor.autoIndent": "advanced"
+  }
+}

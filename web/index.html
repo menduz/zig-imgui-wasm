@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <style>
+    html,
+    body {
+      margin: 0;
+      background-color: #333333;
+    }
+
+    canvas {
+      border: none;
+      width: 1024px;
+      height: 768px;
+      image-rendering: pixelated;
+    }
+
+    textarea {
+      opacity: 0;
+      z-index: 100;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="./index.js"></script>
+
+  <script>
+    const canvas = document.getElementById('canvas')
+    window.devicePixelRatio = 1
+
+    // Default context options: https://www.khronos.org/registry/webgl/specs/latest/1.0/index.html#WEBGLCONTEXTATTRIBUTES
+    const ctx = canvas.getContext('webgl2', {
+      // Implement antialias internally with msaa or fxaa.
+      // Explicitly set to false since it is true by default and interferes with custom implementations. eg. INVALID_OPERATION when blitting with multisampled framebuffer.
+      antialias: false,
+    })
+
+    // first create the input API, this will allow us to .stopPropagation on certain events
+    // while using this library with other engines
+    const inputApi = ZigImgui.initInputApi(canvas)
+
+    // then create our imgui instance
+    ZigImgui.createImgui(canvas, ctx).then(imgui => {
+      // and connect the input system to it
+      inputApi.configure(imgui)      
+
+      let prevTimestamp = 0
+
+      console.log(Object.keys(imgui.exports))
+      console.dir(imgui)
+
+      function step(timestamp) {
+        const delta = timestamp - prevTimestamp
+        prevTimestamp = timestamp
+
+
+        // init frame, here goes Babylon.js or Three.js render
+        ctx.clearColor(Math.sin(prevTimestamp * 0.001) * 0.5 + 0.5, 0.0, 1.0, 1.0);
+        ctx.clear(ctx.COLOR_BUFFER_BIT);
+
+        // then render the Imgui
+        imgui.exports.beginFrame(inputApi.inputTick(delta / 1000));
+        
+        // render the actual ui
+        imgui.exports.igShowDemoWindow(0);
+        
+        // lastly endFrame and gl.flush, this is not strictly necessary when using rAF. your game engine will usually take care of glFlush
+        imgui.exports.endFrame();
+        ctx.flush()
+
+        window.requestAnimationFrame(step);
+      }
+
+      window.requestAnimationFrame(step);
+    })
+  </script>
+</body>
+
+</html>

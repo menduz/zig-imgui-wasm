@@ -1,0 +1,20 @@
+{
+  "name": "gl-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node scripts/serve.js",
+    "build": "zig build && cp zig-cache/wasmtest.wasm web/wasmtest.wasm"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.1.4",
+    "esbuild": "^0.17.19",
+    "fp-future": "^1.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
